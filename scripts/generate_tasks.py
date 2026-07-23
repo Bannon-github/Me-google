@@ -272,7 +272,10 @@ def scan_repo(tasks: List[Task]) -> List[Task]:
                 notes=f"Auto-detected: {rel_path} does not exist.",
             ))
 
-    # Check for source files missing a corresponding test
+    # Check for source files missing a corresponding test.
+    # Use a dedicated counter so IDs stay unique regardless of how many
+    # other auto-tasks were added in earlier sections.
+    test_task_counter = 0
     src_dirs = ["core", "services"]
     for src_dir in src_dirs:
         src_path = REPO_ROOT / src_dir
@@ -285,8 +288,9 @@ def scan_repo(tasks: List[Task]) -> List[Task]:
             if not test_candidate.exists():
                 title = f"Add tests for {src_file.relative_to(REPO_ROOT)}"
                 if title.lower() not in existing_titles:
+                    test_task_counter += 1
                     auto_tasks.append(Task(
-                        id=f"TASK-T{len(auto_tasks)+1:03d}",
+                        id=f"TASK-T{test_task_counter:03d}",
                         title=title,
                         role="Core Logic Engineer",
                         priority="medium",
