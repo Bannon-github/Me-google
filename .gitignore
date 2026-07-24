@@ -1,0 +1,12 @@
+# Build artefacts
+dist/
+node_modules/
+*.tsbuildinfo
+
+# Theme pipeline outputs
+platform/quest/themes/**/dist/
+*.megtheme
+
+# Python
+__pycache__/
+*.pyc
