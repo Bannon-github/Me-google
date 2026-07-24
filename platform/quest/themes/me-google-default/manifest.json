@@ -1,0 +1,26 @@
+{
+  "id": "me-google-default",
+  "name": "Me-google Default",
+  "version": "1.0.0",
+  "author": "Me-google xr-intelligence group",
+  "description": "The default dark-first spatial theme that ships with the Me-google xrOS. Optimised for Meta Quest passthrough panels, XAUR + WCAG 2.2 AA accessible, with high-contrast and reduced-motion accessibility layers.",
+  "accessibilityLevel": "AA",
+  "targetComfortRating": "Comfortable",
+  "schemaVersion": "1.0.0",
+  "generatedBy": null,
+  "license": "Apache-2.0",
+  "tokens": [
+    "tokens/color.json",
+    "tokens/typography.json",
+    "tokens/spacing.json",
+    "tokens/depth.json",
+    "tokens/motion.json",
+    "tokens/audio.json",
+    "tokens/haptics.json"
+  ],
+  "accessibility": {
+    "high-contrast": "accessibility/high-contrast.json",
+    "reduced-motion": "accessibility/reduced-motion.json"
+  },
+  "checksums": {}
+}

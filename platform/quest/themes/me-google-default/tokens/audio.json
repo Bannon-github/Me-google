@@ -1,0 +1,25 @@
+{
+  "$description": "Audio tokens for me-google-default. Spatial audio cue references (asset paths are placeholders under assets/), volumes in [0,1], distance falloff. Every visual state change has an audio cue so information survives with vision reduced (ADR-005 §5). Mono-audio safe: cues never rely on L/R separation to convey required meaning.",
+  "audio": {
+    "$type": "audio",
+    "master": {
+      "volume": { "$type": "number", "$value": 0.8, "$description": "Master UI cue volume [0,1]." },
+      "monoSafe": { "$type": "number", "$value": 1, "$description": "1 = all required cues are mono-safe (XAUR REQ 18a)." }
+    },
+    "falloff": {
+      "$type": "number",
+      "model": { "$value": 1, "$description": "1 = inverse-distance (linear-log) spatial falloff." },
+      "refDistanceMetres": { "$value": 1.0, "$description": "Reference distance at which cue plays at full volume." },
+      "maxDistanceMetres": { "$value": 5.0, "$description": "Distance beyond which cue is silent." }
+    },
+    "cue": {
+      "focus": { "$value": "assets/audio/focus.ogg", "$description": "Focus/hover cue.", "$extensions": { "dev.me-google.volume": 0.5, "dev.me-google.spatial": true } },
+      "select": { "$value": "assets/audio/select.ogg", "$description": "Selection/confirm cue.", "$extensions": { "dev.me-google.volume": 0.7, "dev.me-google.spatial": true } },
+      "back": { "$value": "assets/audio/back.ogg", "$description": "Back/dismiss cue.", "$extensions": { "dev.me-google.volume": 0.6, "dev.me-google.spatial": true } },
+      "success": { "$value": "assets/audio/success.ogg", "$description": "Success state cue (pairs with semantic.success).", "$extensions": { "dev.me-google.volume": 0.7, "dev.me-google.spatial": false } },
+      "warning": { "$value": "assets/audio/warning.ogg", "$description": "Warning state cue.", "$extensions": { "dev.me-google.volume": 0.75, "dev.me-google.spatial": false } },
+      "error": { "$value": "assets/audio/error.ogg", "$description": "Error state cue.", "$extensions": { "dev.me-google.volume": 0.8, "dev.me-google.spatial": false } },
+      "notification": { "$value": "assets/audio/notification.ogg", "$description": "System notification cue.", "$extensions": { "dev.me-google.volume": 0.65, "dev.me-google.spatial": true } }
+    }
+  }
+}

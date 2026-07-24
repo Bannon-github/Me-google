@@ -1,0 +1,185 @@
+{
+  "$description": "Spatial spacing + radii for me-google-default. Authored in metres (VR-native); px is a 72-dpi tooling equivalent. See ADR-004.",
+  "spacing": {
+    "none": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.0,
+        "unit": "px"
+      },
+      "$description": "0.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.0
+      }
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14.2,
+        "unit": "px"
+      },
+      "$description": "5.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.005
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28.3,
+        "unit": "px"
+      },
+      "$description": "10.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.01
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 56.7,
+        "unit": "px"
+      },
+      "$description": "20.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.02
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 113.4,
+        "unit": "px"
+      },
+      "$description": "40.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.04
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 226.8,
+        "unit": "px"
+      },
+      "$description": "80.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.08
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 453.5,
+        "unit": "px"
+      },
+      "$description": "160.0 mm spatial spacing",
+      "$extensions": {
+        "dev.me-google.metres": 0.16
+      }
+    }
+  },
+  "radius": {
+    "none": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.0,
+        "unit": "px"
+      },
+      "$description": "0.0 mm corner radius",
+      "$extensions": {
+        "dev.me-google.metres": 0.0
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 22.7,
+        "unit": "px"
+      },
+      "$description": "8.0 mm corner radius",
+      "$extensions": {
+        "dev.me-google.metres": 0.008
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 45.4,
+        "unit": "px"
+      },
+      "$description": "16.0 mm corner radius",
+      "$extensions": {
+        "dev.me-google.metres": 0.016
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 90.7,
+        "unit": "px"
+      },
+      "$description": "32.0 mm corner radius",
+      "$extensions": {
+        "dev.me-google.metres": 0.032
+      }
+    },
+    "pill": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1417.3,
+        "unit": "px"
+      },
+      "$description": "500.0 mm corner radius",
+      "$extensions": {
+        "dev.me-google.metres": 0.5
+      }
+    }
+  },
+  "panel": {
+    "$description": "Default panel geometry (ADR-004 \u00a73).",
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.4,
+        "unit": "px"
+      },
+      "$description": "Primary panel width 1.4 m",
+      "$extensions": {
+        "dev.me-google.metres": 1.4
+      }
+    },
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.9,
+        "unit": "px"
+      },
+      "$description": "Primary panel height 0.9 m",
+      "$extensions": {
+        "dev.me-google.metres": 0.9
+      }
+    },
+    "borderWidth": {
+      "$type": "dimension",
+      "$value": {
+        "value": 5.7,
+        "unit": "px"
+      },
+      "$description": "2 mm border",
+      "$extensions": {
+        "dev.me-google.metres": 0.002
+      }
+    },
+    "minTargetAngle": {
+      "$type": "number",
+      "$value": 2.0,
+      "$description": "Minimum interactable target size in degrees (ADR-004 \u00a76)."
+    },
+    "minTargetGapAngle": {
+      "$type": "number",
+      "$value": 0.5,
+      "$description": "Minimum clear gap between targets in degrees."
+    }
+  }
+}

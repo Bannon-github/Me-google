@@ -1,0 +1,93 @@
+{
+  "$description": "Z-depth layer tokens for me-google-default: distance from viewer in metres, ordered by the ADR-004 \u00a77 z-stack. Curvature enables cylinder-layer panels >40\u00b0 span.",
+  "depth": {
+    "$type": "depth",
+    "layer": {
+      "passthrough": {
+        "$value": 0.0,
+        "$description": "Passthrough underlay (lowest)"
+      },
+      "world": {
+        "$value": 3.0,
+        "$description": "World-space 3D content"
+      },
+      "panelSecondary": {
+        "$value": 1.8,
+        "$description": "Secondary app panels"
+      },
+      "panelPrimary": {
+        "$value": 1.5,
+        "$description": "Primary UI panels (optimal zone sweet spot)"
+      },
+      "content": {
+        "$value": 1.45,
+        "$description": "Content raised slightly toward viewer"
+      },
+      "floating": {
+        "$value": 1.3,
+        "$description": "Floating elements / controls"
+      },
+      "dialog": {
+        "$value": 1.2,
+        "$description": "Modal dialogs"
+      },
+      "tooltip": {
+        "$value": 1.1,
+        "$description": "Tooltips / popovers"
+      },
+      "notification": {
+        "$value": 1.0,
+        "$description": "System notifications (nearest app layer)"
+      }
+    },
+    "bounds": {
+      "minDistance": {
+        "$type": "number",
+        "$value": 0.5,
+        "$description": "Never place UI closer than 0.5 m (ADR-004 \u00a72)."
+      },
+      "maxTextDistance": {
+        "$type": "number",
+        "$value": 5.0,
+        "$description": "Max distance for readable text."
+      },
+      "optimalMin": {
+        "$type": "number",
+        "$value": 1.0
+      },
+      "optimalMax": {
+        "$type": "number",
+        "$value": 2.0
+      }
+    },
+    "panelCurvatureRadius": {
+      "$type": "number",
+      "$value": 1.5,
+      "$description": "Cylinder-layer radius (m) for panels exceeding 40\u00b0 horizontal span."
+    },
+    "elevationGap": {
+      "$type": "number",
+      "$value": 0.05,
+      "$description": "Default z-gap between stacked layers (m)."
+    },
+    "scene": {
+      "ambientLight": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.043,
+            0.055,
+            0.086
+          ],
+          "hex": "#0B0E16"
+        },
+        "$description": "Ambient scene light tint (matches surface.base)"
+      },
+      "rimLightColor": {
+        "$value": "{color.utility.glow}",
+        "$description": "Rim/edge light colour alias"
+      }
+    }
+  }
+}

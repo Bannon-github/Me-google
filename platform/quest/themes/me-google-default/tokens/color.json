@@ -1,0 +1,495 @@
+{
+  "$description": "Colour tokens for me-google-default. sRGB hex + normalized components; linear floats for shaders under $extensions. See ADR-005 for contrast rules.",
+  "color": {
+    "$type": "color",
+    "surface": {
+      "sunken": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0196,
+            0.0275,
+            0.0431
+          ],
+          "hex": "#05070B"
+        },
+        "$description": "Deepest background, behind all panels",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00152,
+            0.00212,
+            0.00335
+          ]
+        }
+      },
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0431,
+            0.0549,
+            0.0863
+          ],
+          "hex": "#0B0E16"
+        },
+        "$description": "Primary panel background (near-black, blue tint)",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00335,
+            0.00439,
+            0.00802
+          ]
+        }
+      },
+      "raised": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0824,
+            0.102,
+            0.149
+          ],
+          "hex": "#151A26"
+        },
+        "$description": "Raised panel / card surface",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.0075,
+            0.01033,
+            0.01938
+          ]
+        }
+      },
+      "overlay": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1294,
+            0.1647,
+            0.2392
+          ],
+          "hex": "#212A3D"
+        },
+        "$description": "Overlay / popover / tooltip surface",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.01521,
+            0.02315,
+            0.04667
+          ]
+        }
+      }
+    },
+    "on-surface": {
+      "default": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.949,
+            0.9608,
+            0.9804
+          ],
+          "hex": "#F2F5FA"
+        },
+        "$description": "Primary text/icon on dark surfaces",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.88792,
+            0.9131,
+            0.95597
+          ]
+        }
+      },
+      "muted": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7059,
+            0.749,
+            0.8196
+          ],
+          "hex": "#B4BFD1"
+        },
+        "$description": "Secondary text on dark surfaces",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.45641,
+            0.521,
+            0.6376
+          ]
+        }
+      },
+      "subtle": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.549,
+            0.6,
+            0.6902
+          ],
+          "hex": "#8C99B0"
+        },
+        "$description": "Tertiary / hint text on dark surfaces",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.26225,
+            0.31855,
+            0.43415
+          ]
+        }
+      }
+    },
+    "accent": {
+      "primary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3529,
+            0.6902,
+            1.0
+          ],
+          "hex": "#5AB0FF"
+        },
+        "$description": "Primary brand accent (sky blue)",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.10224,
+            0.43415,
+            1.0
+          ]
+        }
+      },
+      "secondary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7843,
+            0.6078,
+            1.0
+          ],
+          "hex": "#C89BFF"
+        },
+        "$description": "Secondary accent (violet)",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.57758,
+            0.32778,
+            1.0
+          ]
+        }
+      },
+      "tertiary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4314,
+            0.9059,
+            0.7176
+          ],
+          "hex": "#6EE7B7"
+        },
+        "$description": "Tertiary accent (mint)",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.15593,
+            0.7991,
+            0.47353
+          ]
+        }
+      }
+    },
+    "on-accent": {
+      "primary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0157,
+            0.0706,
+            0.1216
+          ],
+          "hex": "#04121F"
+        },
+        "$description": "Text/icon on primary fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00121,
+            0.00605,
+            0.0137
+          ]
+        }
+      },
+      "secondary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0863,
+            0.0314,
+            0.149
+          ],
+          "hex": "#160826"
+        },
+        "$description": "Text/icon on secondary fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00802,
+            0.00243,
+            0.01938
+          ]
+        }
+      },
+      "tertiary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0157,
+            0.0863,
+            0.0549
+          ],
+          "hex": "#04160E"
+        },
+        "$description": "Text/icon on tertiary fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00121,
+            0.00802,
+            0.00439
+          ]
+        }
+      }
+    },
+    "semantic": {
+      "success": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3373,
+            0.851,
+            0.4941
+          ],
+          "hex": "#56D97E"
+        },
+        "$description": "Success / positive state",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.09306,
+            0.69387,
+            0.20864
+          ]
+        }
+      },
+      "warning": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            0.7608,
+            0.2941
+          ],
+          "hex": "#FFC24B"
+        },
+        "$description": "Warning / caution state",
+        "$extensions": {
+          "dev.me-google.linear": [
+            1.0,
+            0.53948,
+            0.07036
+          ]
+        }
+      },
+      "error": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            0.4196,
+            0.4196
+          ],
+          "hex": "#FF6B6B"
+        },
+        "$description": "Error / destructive state",
+        "$extensions": {
+          "dev.me-google.linear": [
+            1.0,
+            0.14703,
+            0.14703
+          ]
+        }
+      },
+      "info": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3529,
+            0.6902,
+            1.0
+          ],
+          "hex": "#5AB0FF"
+        },
+        "$description": "Informational state",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.10224,
+            0.43415,
+            1.0
+          ]
+        }
+      }
+    },
+    "on-semantic": {
+      "success": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0157,
+            0.0784,
+            0.0392
+          ],
+          "hex": "#04140A"
+        },
+        "$description": "Text/icon on success fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00121,
+            0.007,
+            0.00304
+          ]
+        }
+      },
+      "warning": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1373,
+            0.0902,
+            0.0
+          ],
+          "hex": "#231700"
+        },
+        "$description": "Text/icon on warning fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.01681,
+            0.00857,
+            0.0
+          ]
+        }
+      },
+      "error": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1294,
+            0.0235,
+            0.0235
+          ],
+          "hex": "#210606"
+        },
+        "$description": "Text/icon on error fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.01521,
+            0.00182,
+            0.00182
+          ]
+        }
+      },
+      "info": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0157,
+            0.0706,
+            0.1216
+          ],
+          "hex": "#04121F"
+        },
+        "$description": "Text/icon on info fills",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00121,
+            0.00605,
+            0.0137
+          ]
+        }
+      }
+    },
+    "utility": {
+      "focus-ring": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            0.8353,
+            0.2902
+          ],
+          "hex": "#FFD54A"
+        },
+        "$description": "High-visibility focus indicator (non-text, >=3:1)",
+        "$extensions": {
+          "dev.me-google.linear": [
+            1.0,
+            0.66539,
+            0.06848
+          ]
+        }
+      },
+      "border": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1922,
+            0.251,
+            0.3608
+          ],
+          "hex": "#31405C"
+        },
+        "$description": "Default panel border / divider",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.03071,
+            0.05127,
+            0.10702
+          ]
+        }
+      },
+      "glow": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3529,
+            0.6902,
+            1.0
+          ],
+          "hex": "#5AB0FF"
+        },
+        "$description": "Rim/glow accent for spatial edge lighting",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.10224,
+            0.43415,
+            1.0
+          ]
+        }
+      },
+      "scrim": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0118,
+            0.0196,
+            0.0392
+          ],
+          "hex": "#03050A"
+        },
+        "$description": "Dimming scrim behind modals",
+        "$extensions": {
+          "dev.me-google.linear": [
+            0.00091,
+            0.00152,
+            0.00304
+          ]
+        }
+      }
+    }
+  }
+}
