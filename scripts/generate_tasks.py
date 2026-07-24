@@ -225,6 +225,54 @@ STATIC_TASKS: List[Task] = [
         status="open",
         depends_on=["TASK-002"],
     ),
+    # ── Theme updates (Meta Quest VR theme system) ───────────────────────
+    # Category: theme-updates. Foundational work delivered by THEME-001; the
+    # remaining items are the living-design-system follow-ups (ADR-007).
+    Task(
+        id="THEME-001",
+        title="Meta Quest VR theme system: architecture, default theme, QA, pipeline",
+        role="Theme System Coordinator",
+        priority="high",
+        status="done",
+        notes="Delivered: ADR-003..007; platform/quest scaffold; me-google-default theme; "
+              "ThemeManager (TS + KT/Swift stubs); QA validators; theme_pipeline.py; theme-ci.yml.",
+    ),
+    Task(
+        id="THEME-002",
+        title="Author a second built-in theme (light/high-luminance) via theme_pipeline generate",
+        role="Theme System Coordinator",
+        priority="medium",
+        status="open",
+        depends_on=["THEME-001"],
+        notes="Use `theme_pipeline.py generate`; must pass all validators and the a11y audit.",
+    ),
+    Task(
+        id="THEME-003",
+        title="Capture visual-regression snapshot baselines for theme QA (Tier 2)",
+        role="DevOps Engineer",
+        priority="medium",
+        status="open",
+        depends_on=["THEME-001"],
+        notes="Populate platform/quest/qa/snapshots/ and wire pixelmatch/SSIM diffing in CI.",
+    ),
+    Task(
+        id="THEME-004",
+        title="Wire ThemeManager Kotlin + Swift stubs to Compose / SwiftUI theming",
+        role="iOS/xrOS Engineer",
+        priority="medium",
+        status="open",
+        depends_on=["THEME-001"],
+        notes="Implement the documented stubs against Style Dictionary Android/iOS build outputs.",
+    ),
+    Task(
+        id="THEME-005",
+        title="Add agent-driven theme generation workflow (propose→validate→publish)",
+        role="DevOps Engineer",
+        priority="low",
+        status="open",
+        depends_on=["THEME-001"],
+        notes="CI job invoking `theme_pipeline.py generate/validate/publish` on an -alpha channel.",
+    ),
 ]
 
 # Priority sort order
