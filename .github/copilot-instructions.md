@@ -89,7 +89,7 @@ Read `.github/skills/registry.json` for the current list of named skills you can
 ### Recommended
 
 - **Resolve bottleneck tasks before picking up new work** (RULE-001): Before starting a new task, check whether any open task blocks ≥2 others. If so, prioritise that blocking task.
-- **Document every significant decision as an ADR** (RULE-005): Before implementing any cross-cutting concern (networking, auth, storage, theming, test strategy), write an ADR in docs/adr/ADR-XXX-title.md and get it reviewed before writing code.
+- **Every module directory must contain a README.md** (RULE-005): When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.
 - **Source files must stay under 500 lines** (RULE-006): If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.
 
 <!-- reflect:rules:end -->
