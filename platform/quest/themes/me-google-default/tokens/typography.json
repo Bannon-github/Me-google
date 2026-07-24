@@ -1,0 +1,190 @@
+{
+  "$description": "Typography tokens for me-google-default. Sizes are authored in degrees of visual angle (VR-native); px is a 72-dpi tooling equivalent, metres@1m under $extensions. See ADR-004 \u00a75.",
+  "typography": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": [
+          "Meta Sans",
+          "Segoe UI",
+          "Roboto",
+          "system-ui",
+          "sans-serif"
+        ],
+        "$description": "Primary UI font stack"
+      },
+      "mono": {
+        "$value": [
+          "Roboto Mono",
+          "SF Mono",
+          "Consolas",
+          "ui-monospace",
+          "monospace"
+        ],
+        "$description": "Monospace font stack"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "xs": {
+        "$type": "dimension",
+        "$value": {
+          "value": 34.6,
+          "unit": "px"
+        },
+        "$description": "0.7\u00b0 of visual angle (\u2248 12.22 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 0.7,
+          "dev.me-google.metresAt1m": 0.01222
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44.5,
+          "unit": "px"
+        },
+        "$description": "0.9\u00b0 of visual angle (\u2248 15.71 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 0.9,
+          "dev.me-google.metresAt1m": 0.01571
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 54.4,
+          "unit": "px"
+        },
+        "$description": "1.1\u00b0 of visual angle (\u2248 19.2 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 1.1,
+          "dev.me-google.metresAt1m": 0.0192
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 69.3,
+          "unit": "px"
+        },
+        "$description": "1.4\u00b0 of visual angle (\u2248 24.44 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 1.4,
+          "dev.me-google.metresAt1m": 0.02444
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 89.1,
+          "unit": "px"
+        },
+        "$description": "1.8\u00b0 of visual angle (\u2248 31.42 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 1.8,
+          "dev.me-google.metresAt1m": 0.03142
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 118.8,
+          "unit": "px"
+        },
+        "$description": "2.4\u00b0 of visual angle (\u2248 41.89 mm at 1 m)",
+        "$extensions": {
+          "dev.me-google.angularDegrees": 2.4,
+          "dev.me-google.metresAt1m": 0.04189
+        }
+      }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "tight": {
+        "$value": 1.2,
+        "$description": "Headings"
+      },
+      "normal": {
+        "$value": 1.45,
+        "$description": "Body text"
+      },
+      "loose": {
+        "$value": 1.7,
+        "$description": "Dense/hint text"
+      }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "tight": {
+        "$value": {
+          "value": -0.2,
+          "unit": "px"
+        }
+      },
+      "normal": {
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "wide": {
+        "$value": {
+          "value": 0.6,
+          "unit": "px"
+        }
+      }
+    },
+    "fontScale": {
+      "$type": "number",
+      "$value": 1.0,
+      "$description": "OS/user text-size multiplier applied to every size (WCAG 1.4.4; supports up to 2.0 = 200%)."
+    },
+    "role": {
+      "body": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.family.sans}",
+          "fontSize": "{typography.size.md}",
+          "fontWeight": "{typography.weight.regular}",
+          "lineHeight": "{typography.lineHeight.normal}"
+        },
+        "$description": "Default body text (1.1\u00b0)"
+      },
+      "heading": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.family.sans}",
+          "fontSize": "{typography.size.xl}",
+          "fontWeight": "{typography.weight.semibold}",
+          "lineHeight": "{typography.lineHeight.tight}"
+        },
+        "$description": "Panel heading (1.8\u00b0)"
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.family.sans}",
+          "fontSize": "{typography.size.xs}",
+          "fontWeight": "{typography.weight.regular}",
+          "lineHeight": "{typography.lineHeight.loose}"
+        },
+        "$description": "Caption/hint (0.7\u00b0) \u2014 never for critical text"
+      }
+    }
+  }
+}

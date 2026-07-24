@@ -1,0 +1,26 @@
+{
+  "$description": "REDUCED-MOTION override layer for me-google-default. Sparse patch merged over base tokens when reduced-motion mode is active (ADR-005 §4, WCAG 2.3.3). All durations become 0 ms, parallax and scale animation disabled, transitions become instant.",
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "instant": { "$value": { "value": 0, "unit": "ms" } },
+      "snap": { "$value": { "value": 0, "unit": "ms" } },
+      "fast": { "$value": { "value": 0, "unit": "ms" } },
+      "normal": { "$value": { "value": 0, "unit": "ms" } },
+      "slow": { "$value": { "value": 0, "unit": "ms" } }
+    },
+    "transition": {
+      "panelEnter": { "$type": "transition", "$value": { "duration": { "value": 0, "unit": "ms" }, "delay": { "value": 0, "unit": "ms" }, "timingFunction": "{motion.easing.standard}" }, "$description": "Instant panel appear (no animation)." },
+      "panelExit": { "$type": "transition", "$value": { "duration": { "value": 0, "unit": "ms" }, "delay": { "value": 0, "unit": "ms" }, "timingFunction": "{motion.easing.standard}" }, "$description": "Instant panel dismiss (no animation)." },
+      "focus": { "$type": "transition", "$value": { "duration": { "value": 0, "unit": "ms" }, "delay": { "value": 0, "unit": "ms" }, "timingFunction": "{motion.easing.standard}" }, "$description": "Instant focus change." }
+    },
+    "comfort": {
+      "$type": "number",
+      "maxAngularVelocityDegPerSec": { "$value": 0, "$description": "No animated angular motion under reduced-motion." },
+      "maxScaleChangePerSec": { "$value": 0, "$description": "No scale animation under reduced-motion." },
+      "maxFlashHz": { "$value": 0, "$description": "No flashing under reduced-motion." },
+      "reducedMotionMultiplier": { "$value": 0.0 },
+      "parallaxEnabled": { "$value": 0, "$description": "Parallax disabled." }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+name: theme-ci
+
+# Validates VR themes and the ThemeManager on every change under platform/quest.
+# See docs/adr/ADR-006 (QA framework) and ADR-007 (pipeline).
+
+on:
+  push:
+    paths:
+      - 'platform/quest/themes/**'
+      - 'platform/quest/api/**'
+      - 'platform/quest/qa/**'
+      - 'scripts/theme_pipeline.py'
+      - '.github/workflows/theme-ci.yml'
+  pull_request:
+    paths:
+      - 'platform/quest/themes/**'
+      - 'platform/quest/api/**'
+      - 'platform/quest/qa/**'
+      - 'scripts/theme_pipeline.py'
+      - '.github/workflows/theme-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  theme-validation:
+    name: Validate themes (schema, contrast, motion)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install validator dependencies
+        run: pip install jsonschema
+      - name: Validate all themes
+        run: |
+          set -e
+          shopt -s nullglob
+          found=0
+          for dir in platform/quest/themes/*/; do
+            if [ -f "${dir}manifest.json" ]; then
+              found=1
+              echo "::group::Validating ${dir}"
+              python3 scripts/theme_pipeline.py validate "${dir}"
+              echo "::endgroup::"
+            fi
+          done
+          if [ "$found" -eq 0 ]; then echo "No themes found"; exit 1; fi
+      - name: Validate merged high-contrast layer (default theme)
+        run: |
+          python3 platform/quest/qa/validators/contrast_check.py \
+            platform/quest/themes/me-google-default/ --mode high-contrast
+
+  thememanager-tests:
+    name: ThemeManager unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform/quest/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm ci || npm install
+      - name: Type-check and run tests
+        run: npm test

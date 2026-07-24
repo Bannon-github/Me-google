@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://me-google.dev/schemas/theme.schema.json",
+  "title": "Me-google VR Theme",
+  "description": "Schema for a Me-google Meta Quest VR theme. The validator assembles the theme directory into a single object { manifest, tokens, accessibility } and validates it against this schema. Token files follow DTCG conventions ($value/$type/$description) with VR extensions for depth, audio and haptics. See docs/adr/ADR-003.",
+  "type": "object",
+  "required": ["manifest", "tokens", "accessibility"],
+  "additionalProperties": false,
+  "properties": {
+    "manifest": { "$ref": "#/$defs/manifest" },
+    "tokens": {
+      "type": "object",
+      "required": ["color", "typography", "spacing", "depth", "motion", "audio", "haptics"],
+      "additionalProperties": false,
+      "properties": {
+        "color": { "$ref": "#/$defs/tokenGroup" },
+        "typography": { "$ref": "#/$defs/tokenGroup" },
+        "spacing": { "$ref": "#/$defs/tokenGroup" },
+        "depth": { "$ref": "#/$defs/tokenGroup" },
+        "motion": { "$ref": "#/$defs/tokenGroup" },
+        "audio": { "$ref": "#/$defs/tokenGroup" },
+        "haptics": { "$ref": "#/$defs/tokenGroup" }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "description": "Sparse override layers merged on top of base tokens. Both modes are required (ADR-005).",
+      "required": ["high-contrast", "reduced-motion"],
+      "additionalProperties": false,
+      "properties": {
+        "high-contrast": { "$ref": "#/$defs/tokenGroup" },
+        "reduced-motion": { "$ref": "#/$defs/tokenGroup" }
+      }
+    }
+  },
+  "$defs": {
+    "manifest": {
+      "type": "object",
+      "required": ["id", "name", "version", "author", "description", "accessibilityLevel", "targetComfortRating", "schemaVersion"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Machine-readable slug used in package names and directory names.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "version": {
+          "type": "string",
+          "description": "SemVer 2.0.0 version.",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "author": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "accessibilityLevel": {
+          "type": "string",
+          "description": "Declared conformance level (ADR-005).",
+          "enum": ["A", "AA", "AAA"]
+        },
+        "targetComfortRating": {
+          "type": "string",
+          "description": "Meta comfort rating target (ADR-004).",
+          "enum": ["Comfortable", "Moderate", "Intense"]
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "Version of this theme schema the theme was authored against.",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "generatedBy": {
+          "type": ["string", "null"],
+          "description": "Optional: identifies an agent/tool that generated this theme (ADR-007). Null when human-authored."
+        },
+        "checksums": {
+          "type": "object",
+          "description": "Optional map of relative file path -> SHA-256 hex digest.",
+          "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "tokenGroup": {
+      "type": "object",
+      "description": "A DTCG group: a nested object of groups and tokens. May carry an inheritable $type and a $description.",
+      "properties": {
+        "$type": { "$ref": "#/$defs/dtcgType" },
+        "$description": { "type": "string" },
+        "$extensions": { "type": "object" }
+      },
+      "additionalProperties": {
+        "oneOf": [
+          { "$ref": "#/$defs/token" },
+          { "$ref": "#/$defs/tokenGroup" }
+        ]
+      }
+    },
+    "token": {
+      "type": "object",
+      "description": "A DTCG token: an object with a $value.",
+      "required": ["$value"],
+      "properties": {
+        "$value": {},
+        "$type": { "$ref": "#/$defs/dtcgType" },
+        "$description": { "type": "string" },
+        "$extensions": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "dtcgType": {
+      "type": "string",
+      "enum": [
+        "color", "dimension", "fontFamily", "fontWeight", "duration",
+        "cubicBezier", "number", "typography", "transition",
+        "depth", "audio", "haptic"
+      ]
+    }
+  }
+}
