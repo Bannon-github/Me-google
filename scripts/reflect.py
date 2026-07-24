@@ -48,7 +48,7 @@ COPILOT_INSTRUCTIONS = REPO_ROOT / ".github" / "copilot-instructions.md"
 TASKS_FILE    = REPO_ROOT / "TASKS.md"
 STATE_FILE    = REPO_ROOT / ".task-state.json"
 
-TODAY = date.today().isoformat()
+TODAY = date.today().isoformat()  # generation date for this run
 
 # ---------------------------------------------------------------------------
 # Data models
@@ -346,7 +346,7 @@ class CodeAnalyser:
                 source="code", category="documentation", key="undocumented_directories",
                 value=missing_docs,
                 severity="warning",
-                description=f"{len(missing_docs)} director(ies) lack a README.md.",
+                description=f"{len(missing_docs)} directory(ies) lack a README.md.",
                 recommendation="Add README.md to every module directory explaining its purpose.",
             ))
 
