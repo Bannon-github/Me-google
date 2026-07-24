@@ -89,8 +89,6 @@ export class Game {
       });
     }
 
-    this.controllers.setOrbCollectedCallback((orb: Orb) => this.onOrbCollected(orb));
-
     // Enter MENU when XR session starts
     renderer.xr.addEventListener('sessionstart', () => this.enterMenu());
     // Return to flat view when XR session ends

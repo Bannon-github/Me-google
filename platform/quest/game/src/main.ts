@@ -59,5 +59,10 @@ window.addEventListener('resize', () => {
 // Game bootstrap
 // ---------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-new Game(renderer);
+// Retain the instance at module scope so the browser's GC cannot collect it
+// while the page is live. Disposal is handled automatically when the tab
+// closes or the XR session ends.
+const game: Game = new Game(renderer);
+
+// Suppress "unused variable" lint warnings — the reference is intentional.
+void game;
