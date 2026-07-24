@@ -202,10 +202,14 @@ def _color_token(hex_str: str, desc: str) -> Dict[str, Any]:
     }
 
 
+VR_CONTRAST_TARGET = 7.0
+_READABLE_ON_CANDIDATES = ("#F5F7FB", "#FFFFFF", "#0A0A0A", "#000000")
+
+
 def _readable_on(hex_bg: str) -> str:
     """Pick #000 or #fff (nudged) for >= 7:1 contrast text on the given background."""
-    for cand in ("#F5F7FB", "#FFFFFF", "#0A0A0A", "#000000"):
-        if contrast_ratio(cand, hex_bg) >= 7.0:
+    for cand in _READABLE_ON_CANDIDATES:
+        if contrast_ratio(cand, hex_bg) >= VR_CONTRAST_TARGET:
             return cand
     # fall back to whichever is higher
     return "#FFFFFF" if contrast_ratio("#FFFFFF", hex_bg) >= contrast_ratio("#000000", hex_bg) else "#000000"
