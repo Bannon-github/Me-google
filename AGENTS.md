@@ -104,6 +104,47 @@ to produce a prioritised, dependency-aware task list.
 
 ---
 
+## Self-Improving Design Process
+
+The script `scripts/reflect.py` is a **self-improvement engine** that analyses the repository's
+development state and automatically derives rules and skills to improve how agents work.
+
+```bash
+# Full reflection pipeline (recommended after completing significant work)
+python3 scripts/reflect.py run-all
+
+# Analyse only (print findings)
+python3 scripts/reflect.py analyze
+
+# Derive and save rules
+python3 scripts/reflect.py generate-rules
+
+# Derive and save skills
+python3 scripts/reflect.py generate-skills
+
+# Generate Markdown report → reports/
+python3 scripts/reflect.py report
+
+# Inject top rules into .github/copilot-instructions.md
+python3 scripts/reflect.py inject
+```
+
+The engine examines:
+- **Git history**: commit velocity, Conventional Commits adherence, churn patterns
+- **Task state**: completion rate, bottlenecks, inactive roles, critical task backlog
+- **Code quality**: untested files, undocumented modules, large files, missing scaffolding
+- **Architecture coverage**: number of ADRs, accessibility override completeness
+
+Derived artefacts:
+- **Rules** → `.github/rules/derived/` and `.github/rules/registry.json`
+- **Skills** → `.github/skills/derived/` and `.github/skills/registry.json`
+- **Reports** → `reports/reflection-YYYY-MM-DD.md`
+- **Injection** → high-severity rules written into `.github/copilot-instructions.md`
+
+The engine runs automatically every Monday at 06:00 UTC via `.github/workflows/reflect.yml`.
+
+---
+
 ## Getting Started (for a new agent)
 
 1. Read `README.md` for the project vision.
