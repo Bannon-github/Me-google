@@ -30,7 +30,7 @@
     "directive": "No agent may begin a high or medium priority task if a critical task is available and unblocked. Critical tasks must be fully complete (PR merged) before new high-priority work begins.",
     "severity": "required",
     "rationale": "Critical tasks are foundational; delaying them blocks everything else.",
-    "evidence": "5 critical-priority tasks are still open.",
+    "evidence": "4 critical-priority tasks are still open.",
     "generated_at": "2026-07-24",
     "source": "auto-reflect",
     "supersedes": null
@@ -42,19 +42,19 @@
     "directive": "When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.",
     "severity": "required",
     "rationale": "Untested code leads to silent regressions, especially in shared core logic.",
-    "evidence": "2 source file(s) have no corresponding test file.",
+    "evidence": "7 source file(s) have no corresponding test file.",
     "generated_at": "2026-07-24",
     "source": "auto-reflect",
     "supersedes": null
   },
   {
     "id": "RULE-005",
-    "category": "architecture",
-    "title": "Document every significant decision as an ADR",
-    "directive": "Before implementing any cross-cutting concern (networking, auth, storage, theming, test strategy), write an ADR in docs/adr/ADR-XXX-title.md and get it reviewed before writing code.",
+    "category": "code-quality",
+    "title": "Every module directory must contain a README.md",
+    "directive": "When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.",
     "severity": "recommended",
-    "rationale": "Undocumented decisions lead to contradictory implementations.",
-    "evidence": "0 Architecture Decision Record(s) exist in docs/adr/.",
+    "rationale": "Undocumented modules prevent new agents from understanding the codebase.",
+    "evidence": "7 directory(ies) lack a README.md.",
     "generated_at": "2026-07-24",
     "source": "auto-reflect",
     "supersedes": null
@@ -78,7 +78,7 @@
     "directive": "The first PR for any platform or module must create the directory with a README.md. Never add feature code to a directory that hasn't been formally scaffolded.",
     "severity": "required",
     "rationale": "Premature feature code without structure leads to tangled modules.",
-    "evidence": "8 required directories do not exist yet.",
+    "evidence": "5 required directories do not exist yet.",
     "generated_at": "2026-07-24",
     "source": "auto-reflect",
     "supersedes": null
