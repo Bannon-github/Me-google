@@ -97,6 +97,14 @@ export class Game {
     // Start animation loop
     renderer.setAnimationLoop(() => this.loop());
 
+    // Flat-preview camera aspect (WebXR overrides this while presenting)
+    const updateAspect = (): void => {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+    };
+    updateAspect();
+    window.addEventListener('resize', updateAspect);
+
     this.state = GameState.MENU;
   }
 
