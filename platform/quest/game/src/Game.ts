@@ -236,6 +236,9 @@ export class Game {
     // Start on first trigger pull from either controller
     this.controllers.setOrbCollectedCallback(() => { /* no-op until playing */ });
     for (const ctrl of this.controllers.controllers) {
+      const existing = ctrl.userData['menuSelectHandler'] as (() => void) | undefined;
+      if (existing) ctrl.removeEventListener('selectstart', existing);
+
       const handler = (): void => {
         if (this.state === GameState.MENU) {
           this.startRound();
@@ -245,6 +248,7 @@ export class Game {
           this.enterMenu();
         }
       };
+      ctrl.userData['menuSelectHandler'] = handler;
       ctrl.addEventListener('selectstart', handler);
     }
 
