@@ -25,12 +25,13 @@ more orbs, shorter lifetime, faster drift.
 
 ## Controls
 
-| Action           | Controller          | Hand Tracking  |
-|------------------|---------------------|----------------|
-| Aim at orb       | Point controller    | Point index    |
-| Collect orb      | Squeeze trigger     | Pinch          |
-| Pause / Resume   | Menu button         | —              |
+| Action         | Controller      |
+|----------------|-----------------|
+| Aim at orb     | Point controller|
+| Collect orb    | Squeeze trigger |
+| Pause / Resume | Grip squeeze    |
 
+> Hand tracking controls are not implemented yet; update this section when added.
 ## Directory Layout
 
 ```
