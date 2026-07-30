@@ -36,7 +36,7 @@
       "severity": "required",
       "rationale": "Critical tasks are foundational; delaying them blocks everything else.",
       "evidence": "4 critical-priority tasks are still open.",
-      "generated_at": "2026-07-27",
+      "generated_at": "2026-07-24",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -48,7 +48,7 @@
       "severity": "required",
       "rationale": "Untested code leads to silent regressions, especially in shared core logic.",
       "evidence": "7 source file(s) have no corresponding test file.",
-      "generated_at": "2026-07-27",
+      "generated_at": "2026-07-24",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -60,7 +60,7 @@
       "severity": "recommended",
       "rationale": "Undocumented modules prevent new agents from understanding the codebase.",
       "evidence": "7 directory(ies) lack a README.md.",
-      "generated_at": "2026-07-27",
+      "generated_at": "2026-07-24",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -84,7 +84,7 @@
       "severity": "required",
       "rationale": "Premature feature code without structure leads to tangled modules.",
       "evidence": "5 required directories do not exist yet.",
-      "generated_at": "2026-07-27",
+      "generated_at": "2026-07-24",
       "source": "auto-reflect",
       "supersedes": null
     }
