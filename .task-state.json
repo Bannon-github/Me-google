@@ -1,0 +1,13 @@
+{
+  "status_overrides": {
+    "TASK-001": "done",
+    "TASK-002": "done",
+    "TASK-004": "done",
+    "TASK-007": "done",
+    "TASK-A008": "done",
+    "TASK-A010": "done",
+    "TASK-A013": "done",
+    "TASK-A016": "done",
+    "TASK-A002": "done"
+  }
+}

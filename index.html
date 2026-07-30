@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>CHROMABOUND — Zelda-like 2D browser game</title>
+  <meta name="description" content="CHROMABOUND is a self-contained hue-attunement 2D adventure for GitHub Pages." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-hue="azure" data-screen="title">
+  <main id="app" class="app-shell" aria-label="CHROMABOUND game">
+    <section id="titleScreen" class="title-screen view" aria-labelledby="gameTitle">
+      <div class="title-sky" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="title-card">
+        <p class="eyebrow">A prism-sword micro epic</p>
+        <h1 id="gameTitle" class="logo">CHROMABOUND</h1>
+        <p class="tagline">Restore color to a drained overworld by attuning the Prism Blade to Crimson, Verdant, and Azure.</p>
+        <div class="title-actions" role="group" aria-label="Title menu">
+          <button id="startButton" class="pixel-button primary">Start / Continue</button>
+          <button id="newGameButton" class="pixel-button">New Game</button>
+        </div>
+        <dl class="controls-list">
+          <div><dt>Move</dt><dd>Arrows / WASD</dd></div>
+          <div><dt>Attack</dt><dd>Space / Z</dd></div>
+          <div><dt>Attune</dt><dd>1 Crimson · 2 Verdant · 3 Azure</dd></div>
+          <div><dt>Items</dt><dd>Q potion · I/Esc inventory · M mute</dd></div>
+        </dl>
+        <p class="secret-hint">Some secrets answer those who type. Try legends, colors, wealth, or warps.</p>
+        <p class="press-enter">Press Enter</p>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="game-screen view" aria-label="Game screen">
+      <div id="gameFrame" class="game-frame">
+        <header id="hud" class="hud" aria-live="polite">
+          <div class="hud-cluster hearts" id="hearts" aria-label="Health"></div>
+          <div class="hud-cluster hue-meter" aria-label="Hue attunement">
+            <span class="hue-chip crimson" data-key="1">Crimson</span>
+            <span class="hue-chip verdant" data-key="2">Verdant</span>
+            <span class="hue-chip azure" data-key="3">Azure</span>
+          </div>
+          <div class="hud-cluster counters">
+            <span id="shards">◇ 0</span>
+            <span id="roomName">The Grey Crossroads</span>
+            <button id="muteButton" class="hud-button" type="button" aria-pressed="false">Sound</button>
+          </div>
+        </header>
+        <canvas id="gameCanvas" width="320" height="180" aria-label="CHROMABOUND game canvas" role="img"></canvas>
+        <div id="bossBar" class="boss-bar" hidden>
+          <span id="bossName">Boss</span>
+          <meter id="bossMeter" min="0" max="100" value="100"></meter>
+        </div>
+        <p id="toast" class="toast" aria-live="assertive"></p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="inventoryDialog" class="inventory-dialog" aria-labelledby="inventoryTitle">
+    <form method="dialog" class="inventory-panel">
+      <header>
+        <h2 id="inventoryTitle">Prism Satchel</h2>
+        <button value="close" class="close-button" aria-label="Close inventory">×</button>
+      </header>
+      <div id="inventoryContent" class="inventory-content"></div>
+      <footer>
+        <p>Use <kbd>Q</kbd> for the first available potion. <kbd>Shift</kbd> dashes after the Ashen Warden falls.</p>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="cheatDialog" class="cheat-dialog" aria-labelledby="cheatTitle">
+    <form method="dialog" class="cheat-panel" id="cheatForm">
+      <label id="cheatTitle" for="cheatInput">Secret phrase</label>
+      <input id="cheatInput" name="cheat" autocomplete="off" spellcheck="false" maxlength="24" />
+      <button class="pixel-button primary" value="submit">Invoke</button>
+    </form>
+  </dialog>
+
+  <nav class="touch-controls" aria-label="Touch controls">
+    <div class="touch-dpad" aria-label="Directional pad">
+      <button data-touch="up">▲</button>
+      <button data-touch="left">◀</button>
+      <button data-touch="right">▶</button>
+      <button data-touch="down">▼</button>
+    </div>
+    <div class="touch-actions" aria-label="Action buttons">
+      <button data-touch="attack">Blade</button>
+      <button data-touch="dash">Dash</button>
+      <button data-touch="potion">Potion</button>
+    </div>
+    <div class="touch-hues" aria-label="Hue buttons">
+      <button data-touch="hue-crimson">C</button>
+      <button data-touch="hue-verdant">V</button>
+      <button data-touch="hue-azure">A</button>
+    </div>
+  </nav>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
