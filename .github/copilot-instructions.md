@@ -82,14 +82,13 @@ Read `.github/skills/registry.json` for the current list of named skills you can
 
 ### Required
 
-- **Critical tasks take priority over high/medium tasks** (RULE-003): No agent may begin a high or medium priority task if a critical task is available and unblocked. Critical tasks must be fully complete (PR merged) before new high-priority work begins.
-- **Every source file must have a corresponding test file** (RULE-004): When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.
-- **Scaffold required directories before implementing features** (RULE-007): The first PR for any platform or module must create the directory with a README.md. Never add feature code to a directory that hasn't been formally scaffolded.
+- **All commits must use Conventional Commits format** (RULE-001): Every commit message must begin with a type prefix: feat:, fix:, docs:, refactor:, test:, chore:, ci:, research:, perf:. Do not commit without a type prefix.
+- **Every source file must have a corresponding test file** (RULE-003): When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.
 
 ### Recommended
 
-- **Resolve bottleneck tasks before picking up new work** (RULE-001): Before starting a new task, check whether any open task blocks ≥2 others. If so, prioritise that blocking task.
-- **Every module directory must contain a README.md** (RULE-005): When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.
-- **Source files must stay under 500 lines** (RULE-006): If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.
+- **Resolve bottleneck tasks before picking up new work** (RULE-002): Before starting a new task, check whether any open task blocks ≥2 others. If so, prioritise that blocking task.
+- **Every module directory must contain a README.md** (RULE-004): When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.
+- **Source files must stay under 500 lines** (RULE-005): If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.
 
 <!-- reflect:rules:end -->
