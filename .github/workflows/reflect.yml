@@ -92,7 +92,10 @@ jobs:
           git checkout -b "$BRANCH"
           git commit -m "chore(reflect): auto-derived rules and skills $(date +%F)"
           git push origin "$BRANCH"
-          gh pr create \
+          # PR creation may be blocked by the repository setting
+          # "Allow GitHub Actions to create and approve pull requests".
+          # In that case, warn and point to the manual PR link instead of failing.
+          if ! gh pr create \
             --title "chore(reflect): self-improvement update $(date +%F)" \
             --body "## Automated Self-Improvement Reflection
 
@@ -115,7 +118,13 @@ jobs:
           > directly — edit the reflection engine instead.
           " \
             --base main \
-            --head "$BRANCH"
+            --head "$BRANCH"; then
+            echo "::warning::Could not create a pull request automatically." \
+              "GitHub Actions may not be permitted to create pull requests in this repository" \
+              "(Settings → Actions → General → 'Allow GitHub Actions to create and approve pull requests')."
+            echo "::notice::Branch '$BRANCH' was pushed. Open a PR manually at:" \
+              "https://github.com/${GITHUB_REPOSITORY}/pull/new/$BRANCH"
+          fi
 
       - name: Upload reflection report
         if: always()
