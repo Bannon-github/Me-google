@@ -1,6 +1,6 @@
 # Me-google — Self-Improvement Reflection Report
 
-> Generated: 2026-07-30 04:44 UTC by `scripts/reflect.py`
+> Generated: 2026-07-30 04:51 UTC by `scripts/reflect.py`
 
 ## Executive Summary
 
@@ -23,13 +23,13 @@
 
 ### 🟡 Warning
 
-**[GIT / quality]** 15/19 commits (79%) follow Conventional Commits format.
+**[GIT / quality]** 20/31 commits (65%) follow Conventional Commits format.
 > 💡 All commits must use Conventional Commits (feat:, fix:, docs:, etc.).
 
 **[TASKS / bottleneck]** Bottleneck tasks (each blocks ≥2 others): TASK-005, TASK-010, TASK-013.
 > 💡 Prioritise bottleneck tasks to unblock the most parallel work.
 
-**[CODE / documentation]** 8 directory(ies) lack a README.md.
+**[CODE / documentation]** 10 directory(ies) lack a README.md.
 > 💡 Add README.md to every module directory explaining its purpose.
 
 **[CODE / quality]** 4 file(s) exceed 500 lines and may need splitting.
@@ -37,9 +37,9 @@
 
 ### ℹ️ Info
 
-**[GIT / velocity]** 19 commits in the last 30 days (0.63/day).
+**[GIT / velocity]** 31 commits in the last 30 days (1.03/day).
 
-**[GIT / churn]** Top churn files: TASKS.md, .github/copilot-instructions.md, scripts/generate_tasks.py.
+**[GIT / churn]** Top churn files: .github/copilot-instructions.md, platform/quest/game/src/Game.ts, .github/rules/registry.json.
 > 💡 High churn may indicate unstable interfaces — consider stabilising with tests.
 
 **[TASKS / velocity]** Task completion: 9/25 (36%). 0 blocked.

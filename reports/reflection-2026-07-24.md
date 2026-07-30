@@ -1,14 +1,14 @@
 # Me-google — Self-Improvement Reflection Report
 
-> Generated: 2026-07-24 00:13 UTC by `scripts/reflect.py`
+> Generated: 2026-07-24 02:59 UTC by `scripts/reflect.py`
 
 ## Executive Summary
 
 | Category | Count |
 |---|---|
-| 🔴 Critical findings | 2 |
-| 🟡 Warnings | 5 |
-| ℹ️ Info | 4 |
+| 🔴 Critical findings | 3 |
+| 🟡 Warnings | 4 |
+| ℹ️ Info | 5 |
 | 📋 Rules derived | 7 |
 | 🛠️ Skills derived | 7 |
 
@@ -18,10 +18,13 @@
 
 ### 🔴 Critical
 
-**[TASKS / priority]** 5 critical-priority tasks are still open.
+**[TASKS / priority]** 4 critical-priority tasks are still open.
 > 💡 Critical tasks must be addressed before high/medium work.
 
-**[CODE / scaffolding]** 8 required directories do not exist yet.
+**[CODE / testing]** 7 source file(s) have no corresponding test file.
+> 💡 Every source file in core/ and services/ must have a test counterpart.
+
+**[CODE / scaffolding]** 5 required directories do not exist yet.
 > 💡 Scaffold all required directories before implementing features.
 
 ### 🟡 Warning
@@ -32,26 +35,25 @@
 **[TASKS / coverage]** Roles with no completed tasks: Architect, DevOps Engineer, Core Logic Engineer, Privacy/Networking Engineer, iOS/xrOS Engineer, Android/AR Engineer, Web/WebXR Engineer, Documentation Writer.
 > 💡 Ensure each agent role has at least one in-progress task.
 
-**[CODE / testing]** 2 source file(s) have no corresponding test file.
-> 💡 Every source file in core/ and services/ must have a test counterpart.
-
-**[CODE / architecture]** 0 Architecture Decision Record(s) exist in docs/adr/.
-> 💡 Document every significant architectural decision as an ADR.
+**[CODE / documentation]** 7 directory(ies) lack a README.md.
+> 💡 Add README.md to every module directory explaining its purpose.
 
 **[CODE / quality]** 4 file(s) exceed 500 lines and may need splitting.
 > 💡 Prefer small, focused modules. Split files over 500 lines.
 
 ### ℹ️ Info
 
-**[GIT / velocity]** 3 commits in the last 30 days (0.10/day).
+**[GIT / velocity]** 14 commits in the last 30 days (0.47/day).
 > 💡 Aim for at least 1 commit per active development day.
 
-**[GIT / quality]** 3/3 commits (100%) follow Conventional Commits format.
+**[GIT / quality]** 12/14 commits (86%) follow Conventional Commits format.
 
-**[GIT / churn]** Top churn files: .github/copilot-instructions.md, AGENTS.md, scripts/generate_tasks.py.
+**[GIT / churn]** Top churn files: scripts/generate_tasks.py, scripts/theme_pipeline.py, platform/quest/qa/validators/__pycache__/_theme_common.cpython-312.pyc.
 > 💡 High churn may indicate unstable interfaces — consider stabilising with tests.
 
-**[TASKS / velocity]** Task completion: 0/27 (0%). 0 blocked.
+**[TASKS / velocity]** Task completion: 0/25 (0%). 0 blocked.
+
+**[CODE / architecture]** 5 Architecture Decision Record(s) exist in docs/adr/.
 
 ---
 
@@ -63,7 +65,7 @@
 | RULE-002 | process | suggested | Ensure all agent roles have active work |
 | RULE-003 | process | required | Critical tasks take priority over high/medium tasks |
 | RULE-004 | testing | required | Every source file must have a corresponding test file |
-| RULE-005 | architecture | recommended | Document every significant decision as an ADR |
+| RULE-005 | code-quality | recommended | Every module directory must contain a README.md |
 | RULE-006 | code-quality | recommended | Source files must stay under 500 lines |
 | RULE-007 | architecture | required | Scaffold required directories before implementing features |
 

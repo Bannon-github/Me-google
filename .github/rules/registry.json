@@ -84,7 +84,7 @@
       "severity": "required",
       "rationale": "Premature feature code without structure leads to tangled modules.",
       "evidence": "5 required directories do not exist yet.",
-      "generated_at": "2026-07-27",
+      "generated_at": "2026-07-24",
       "source": "auto-reflect",
       "supersedes": null
     }

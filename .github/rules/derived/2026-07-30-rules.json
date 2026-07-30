@@ -6,7 +6,7 @@
     "directive": "Every commit message must begin with a type prefix: feat:, fix:, docs:, refactor:, test:, chore:, ci:, research:, perf:. Do not commit without a type prefix.",
     "severity": "required",
     "rationale": "Conventional Commits enable automated changelogs and clear history.",
-    "evidence": "15/19 commits (79%) follow Conventional Commits format.",
+    "evidence": "20/31 commits (65%) follow Conventional Commits format.",
     "generated_at": "2026-07-30",
     "source": "auto-reflect",
     "supersedes": null
@@ -42,7 +42,7 @@
     "directive": "When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.",
     "severity": "recommended",
     "rationale": "Undocumented modules prevent new agents from understanding the codebase.",
-    "evidence": "8 directory(ies) lack a README.md.",
+    "evidence": "10 directory(ies) lack a README.md.",
     "generated_at": "2026-07-30",
     "source": "auto-reflect",
     "supersedes": null
