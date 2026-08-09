@@ -108,6 +108,40 @@ noise.
 could try to steer an agent that later opens PRs. Mitigation: scout sessions are read-and-write-
 report-only, never code-writing, and their reports go through the PR path like everything else.
 
+## Amendment — 2026-08-09: Grok implementation, council stage, and on-demand coding
+
+Accepted by the maintainer on 2026-08-09, superseding two of the original decisions.
+
+**Provider.** Both loops are implemented as scheduled CI jobs calling an OpenAI-compatible
+chat API — xAI Grok by default (`scripts/ai_client.py`; env `AI_API_KEY` / `AI_MODEL` /
+`AI_BASE_URL`) — rather than interactive agent sessions. Grok's live-search extension gives
+the scout its web access.
+
+**Council stage (new).** The original "human promotes findings by hand, full stop" is
+extended with a deliberation layer: after each scout digest, a council of specialized agent
+personas (`scripts/council.py`, seats defined in `scripts/council_personas.json` — Architect,
+Privacy Red-Team, Integrator, Product) independently reviews the digest and a chair synthesis
+produces `reports/council-YYYY-MM-DD.md` with ranked, ready-to-promote actions. The council
+reads only the digest file, never the web. Seats are data, so the council can evolve by PR.
+
+**On-demand coding (new, supersedes "no pipeline from finding to action").** The maintainer
+may turn a council action into code via the `ai-task` workflow (`scripts/ai_task.py`): a
+human-typed instruction, a coding session with **no web access** (the web-reading scout and
+the code-writing task are separate sessions by design), a write-firewall rejecting protected
+paths (workflows, rules/skills registries, the AI machinery itself), the repo test suite run
+with its result stamped on the submission, and a **draft PR** as the only output. The formal
+submission protocol: research → council decision → implementation draft PR with tests passed
+→ the human gives the green light by merging. Nothing in this chain auto-merges.
+
+**Web UI.** The loops are operated from `dashboard/index.html` — a single-file Mission
+Control page using the GitHub API with a user-supplied fine-grained token — rather than the
+Actions tab: trigger runs, launch AI tasks, read reports, and green-light submissions.
+
+The injection-defence principle survives all four changes in laddered form: web content is
+only ever read by the scout, which only writes prose; the council reasons over that prose but
+cannot write code; code is written only from human instructions, without web access, behind a
+path firewall, into a draft PR a human merges.
+
 ## References
 
 - ADR-008 — the enforcement loop this deliberately counterweights

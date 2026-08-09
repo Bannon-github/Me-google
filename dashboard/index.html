@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Me-google Mission Control</title>
+<style>
+  /* Deliberately single-theme: a dark control room. Every color painted explicitly. */
+  :root {
+    --bg: #101418;          /* blue-biased near-black */
+    --panel: #171d23;
+    --panel-edge: #232c35;
+    --ink: #d7dee6;
+    --ink-dim: #8b98a5;
+    --accent: #5cc8ff;      /* signal blue */
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --mono: "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 15px; line-height: 1.5;
+    padding: 1.5rem; max-width: 1100px; margin-inline: auto;
+  }
+  h1 { font-family: var(--mono); font-size: 1.15rem; letter-spacing: .06em; }
+  h1 .dot { color: var(--accent); }
+  h2 {
+    font-family: var(--mono); font-size: .78rem; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--ink-dim); margin-bottom: .75rem;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  main { display: grid; gap: 1.25rem; }
+  section {
+    background: var(--panel); border: 1px solid var(--panel-edge);
+    border-radius: 6px; padding: 1.1rem 1.25rem;
+  }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+  button {
+    background: transparent; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 4px; padding: .35rem .9rem; font-family: var(--mono);
+    font-size: .8rem; cursor: pointer;
+  }
+  button:hover { background: rgba(92, 200, 255, .12); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:disabled { color: var(--ink-dim); border-color: var(--panel-edge); cursor: not-allowed; }
+  button.green { color: var(--ok); border-color: var(--ok); }
+  button.green:hover { background: rgba(74, 222, 128, .12); }
+  input[type=password], input[type=text], textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--panel-edge);
+    color: var(--ink); border-radius: 4px; padding: .45rem .6rem;
+    font-family: var(--mono); font-size: .82rem;
+  }
+  textarea { min-height: 4.5rem; resize: vertical; }
+  input:focus, textarea:focus { outline: 1px solid var(--accent); }
+  label { display: block; font-size: .75rem; color: var(--ink-dim); margin: .6rem 0 .25rem; }
+  ul { list-style: none; display: grid; gap: .55rem; }
+  .row {
+    display: flex; align-items: center; gap: .7rem; flex-wrap: wrap;
+    padding: .5rem .65rem; background: var(--bg); border-radius: 4px;
+    border: 1px solid var(--panel-edge);
+  }
+  .row .title { flex: 1 1 14rem; }
+  .row a { color: var(--ink); text-decoration: none; }
+  .row a:hover { color: var(--accent); }
+  .pill {
+    font-family: var(--mono); font-size: .68rem; padding: .1rem .5rem;
+    border-radius: 999px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .pill.ok   { color: var(--ok); }
+  .pill.warn { color: var(--warn); }
+  .pill.bad  { color: var(--bad); }
+  .pill.dim  { color: var(--ink-dim); }
+  .muted { color: var(--ink-dim); font-size: .8rem; }
+  #status {
+    font-family: var(--mono); font-size: .75rem; color: var(--ink-dim);
+    min-height: 1.2em; margin-top: 1rem; white-space: pre-wrap;
+  }
+  /* Report viewer */
+  #report-view {
+    display: none; margin-top: 1rem; padding: 1rem 1.25rem; background: var(--bg);
+    border: 1px solid var(--panel-edge); border-radius: 4px; overflow-x: auto;
+  }
+  #report-view h3 { margin: 1rem 0 .4rem; color: var(--accent); font-size: 1rem; }
+  #report-view h4 { margin: .8rem 0 .3rem; font-size: .9rem; }
+  #report-view p, #report-view li { max-width: 72ch; margin-bottom: .4rem; }
+  #report-view ul { list-style: disc; padding-left: 1.4rem; }
+  #report-view blockquote {
+    border-left: 3px solid var(--panel-edge); padding-left: .8rem;
+    color: var(--ink-dim); margin: .5rem 0;
+  }
+  #report-view code { font-family: var(--mono); font-size: .82em; color: var(--accent); }
+  #report-view table { border-collapse: collapse; margin: .6rem 0; font-size: .85rem; }
+  #report-view th, #report-view td { border: 1px solid var(--panel-edge); padding: .3rem .6rem; text-align: left; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pill.live { animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: .45; } }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ME-GOOGLE <span class="dot">▪</span> MISSION CONTROL</h1>
+  <div style="display:flex; gap:.6rem; align-items:center;">
+    <span id="auth-state" class="pill dim">no token</span>
+    <button id="refresh-btn">refresh</button>
+  </div>
+</header>
+
+<main>
+  <section id="auth">
+    <h2>Access</h2>
+    <p class="muted">Paste a fine-grained GitHub token (repo scope: contents, actions, pull-requests — read/write).
+    Stored only in this browser's localStorage. Green-lighting merges as you.</p>
+    <label for="token">token</label>
+    <div style="display:flex; gap:.6rem;">
+      <input type="password" id="token" placeholder="github_pat_…">
+      <button id="save-token">save</button>
+      <button id="clear-token">clear</button>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>Loops</h2>
+      <ul id="loops">
+        <li class="row" data-wf="reflect.yml"><span class="title">Reflect <span class="muted">(inward · Mon)</span></span><span class="pill dim">—</span><button data-run="reflect.yml">run now</button></li>
+        <li class="row" data-wf="ai-research.yml"><span class="title">Scout + Council <span class="muted">(outward · Wed)</span></span><span class="pill dim">—</span><button data-run="ai-research.yml" data-mode="scout">run now</button></li>
+        <li class="row" data-wf="ai-research.yml" data-premortem="1"><span class="title">Pre-mortem <span class="muted">(forward · monthly)</span></span><span class="pill dim">—</span><button data-run="ai-research.yml" data-mode="premortem">run now</button></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>AI Task — on-demand coding</h2>
+      <label for="task-instruction">instruction</label>
+      <textarea id="task-instruction" placeholder="e.g. Implement council action #1: spike an OPFS-backed store for core/models/spatial_item.ts, with tests"></textarea>
+      <label for="task-context">context files (comma-separated)</label>
+      <input type="text" id="task-context" value="AGENTS.md">
+      <div style="margin-top:.7rem;"><button id="launch-task">launch → draft PR</button></div>
+      <p class="muted" style="margin-top:.5rem;">No web access, protected paths rejected, tests run before submission. Output is always a draft PR below.</p>
+    </section>
+  </div>
+
+  <section>
+    <h2>Submissions — awaiting green light</h2>
+    <ul id="prs"><li class="muted">Load with a token…</li></ul>
+  </section>
+
+  <section>
+    <h2>Reports</h2>
+    <ul id="reports"><li class="muted">Load with a token…</li></ul>
+    <div id="report-view"></div>
+  </section>
+</main>
+
+<p id="status"></p>
+
+<script>
+"use strict";
+/* Repo is fixed on purpose: this page operates one repository. */
+const OWNER = "Bannon-github", REPO = "Me-google", BRANCH = "main";
+const API = "https://api.github.com";
+
+const $ = (sel) => document.querySelector(sel);
+const status = (msg) => { $("#status").textContent = msg; };
+
+function token() { return localStorage.getItem("mc-token") || ""; }
+
+async function gh(path, opts = {}) {
+  const resp = await fetch(API + path, {
+    ...opts,
+    headers: {
+      "Accept": "application/vnd.github+json",
+      "Authorization": "Bearer " + token(),
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(opts.body ? { "Content-Type": "application/json" } : {}),
+      ...(opts.headers || {}),
+    },
+  });
+  if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText} on ${path}: ${(await resp.text()).slice(0, 300)}`);
+  return resp.status === 204 ? null : resp.json();
+}
+
+function setAuthPill() {
+  const pill = $("#auth-state");
+  if (token()) { pill.textContent = "token set"; pill.className = "pill ok"; }
+  else { pill.textContent = "no token"; pill.className = "pill dim"; }
+}
+
+/* ---- Loops: latest run status per workflow ---- */
+async function loadLoops() {
+  for (const li of document.querySelectorAll("#loops .row")) {
+    const wf = li.dataset.wf, pill = li.querySelector(".pill");
+    try {
+      const data = await gh(`/repos/${OWNER}/${REPO}/actions/workflows/${wf}/runs?per_page=1`);
+      const run = data.workflow_runs[0];
+      if (!run) { pill.textContent = "never ran"; pill.className = "pill dim"; continue; }
+      const when = new Date(run.created_at).toLocaleDateString();
+      if (run.status !== "completed") { pill.textContent = "running"; pill.className = "pill warn live"; }
+      else if (run.conclusion === "success") { pill.textContent = `✓ ${when}`; pill.className = "pill ok"; }
+      else { pill.textContent = `${run.conclusion} ${when}`; pill.className = "pill bad"; }
+    } catch (e) { pill.textContent = "?"; pill.className = "pill dim"; }
+  }
+}
+
+async function dispatchWorkflow(wf, inputs) {
+  await gh(`/repos/${OWNER}/${REPO}/actions/workflows/${wf}/dispatches`, {
+    method: "POST",
+    body: JSON.stringify({ ref: BRANCH, inputs: inputs || {} }),
+  });
+}
+
+/* ---- Submissions: open PRs with check status + green light ---- */
+async function loadPRs() {
+  const list = $("#prs");
+  try {
+    const prs = await gh(`/repos/${OWNER}/${REPO}/pulls?state=open&per_page=20`);
+    list.innerHTML = "";
+    if (!prs.length) { list.innerHTML = '<li class="muted">No open submissions.</li>'; return; }
+    for (const pr of prs) {
+      const li = document.createElement("li"); li.className = "row";
+      const checks = await gh(`/repos/${OWNER}/${REPO}/commits/${pr.head.sha}/check-runs?per_page=50`)
+        .catch(() => ({ check_runs: [] }));
+      const runs = checks.check_runs || [];
+      const failed = runs.filter(c => ["failure", "timed_out", "cancelled"].includes(c.conclusion)).length;
+      const pending = runs.filter(c => c.status !== "completed").length;
+      let checkPill = '<span class="pill dim">no checks</span>';
+      if (pending) checkPill = `<span class="pill warn live">${pending} running</span>`;
+      else if (failed) checkPill = `<span class="pill bad">✗ ${failed} failed</span>`;
+      else if (runs.length) checkPill = '<span class="pill ok">✓ tests passed</span>';
+      li.innerHTML =
+        `<span class="title"><a href="${pr.html_url}" target="_blank" rel="noopener">#${pr.number} ${escapeHtml(pr.title)}</a></span>` +
+        (pr.draft ? '<span class="pill dim">draft</span>' : "") + checkPill +
+        `<button class="green" data-pr="${pr.number}" ${failed || pending ? "disabled" : ""}>green-light ✓</button>`;
+      list.appendChild(li);
+    }
+  } catch (e) { list.innerHTML = `<li class="muted">${escapeHtml(e.message)}</li>`; }
+}
+
+async function greenLight(number) {
+  if (!confirm(`Green-light #${number}? This marks it ready and squash-merges into ${BRANCH}.`)) return;
+  status(`Green-lighting #${number}…`);
+  const pr = await gh(`/repos/${OWNER}/${REPO}/pulls/${number}`);
+  if (pr.draft) {
+    // Un-drafting is GraphQL-only.
+    const q = `mutation { markPullRequestReadyForReview(input:{pullRequestId:"${pr.node_id}"}) { pullRequest { number } } }`;
+    const resp = await fetch(API + "/graphql", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + token(), "Content-Type": "application/json" },
+      body: JSON.stringify({ query: q }),
+    });
+    const out = await resp.json();
+    if (out.errors) throw new Error("Could not mark ready: " + out.errors[0].message);
+  }
+  await gh(`/repos/${OWNER}/${REPO}/pulls/${number}/merge`, {
+    method: "PUT",
+    body: JSON.stringify({ merge_method: "squash" }),
+  });
+  status(`#${number} merged. ✓`);
+  loadPRs(); loadLoops();
+}
+
+/* ---- Reports browser ---- */
+async function loadReports() {
+  const list = $("#reports");
+  try {
+    const files = await gh(`/repos/${OWNER}/${REPO}/contents/reports?ref=${BRANCH}`);
+    const reports = files.filter(f => f.name.endsWith(".md")).reverse().slice(0, 15);
+    list.innerHTML = "";
+    for (const f of reports) {
+      const kind = f.name.split("-")[0];
+      const li = document.createElement("li"); li.className = "row";
+      li.innerHTML = `<span class="title">${escapeHtml(f.name)}</span>` +
+        `<span class="pill dim">${escapeHtml(kind)}</span>` +
+        `<button data-report="${escapeHtml(f.path)}">view</button>`;
+      list.appendChild(li);
+    }
+    if (!reports.length) list.innerHTML = '<li class="muted">No reports yet — run a loop.</li>';
+  } catch (e) { list.innerHTML = `<li class="muted">${escapeHtml(e.message)}</li>`; }
+}
+
+async function viewReport(path) {
+  status(`Loading ${path}…`);
+  const file = await gh(`/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`);
+  const md = new TextDecoder().decode(Uint8Array.from(atob(file.content), c => c.charCodeAt(0)));
+  const view = $("#report-view");
+  view.innerHTML = renderMarkdown(md);
+  view.style.display = "block";
+  view.scrollIntoView({ behavior: "smooth", block: "start" });
+  status("");
+}
+
+/* Small, safe markdown renderer: escape first, then re-introduce structure. */
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function inline(s) {
+  return s
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+    .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+}
+function renderMarkdown(md) {
+  const lines = escapeHtml(md).split("\n");
+  let html = "", inList = false, inTable = false, inCode = false;
+  const close = () => { if (inList) { html += "</ul>"; inList = false; } if (inTable) { html += "</table>"; inTable = false; } };
+  for (const raw of lines) {
+    if (raw.startsWith("```")) { close(); html += inCode ? "</code></pre>" : "<pre><code>"; inCode = !inCode; continue; }
+    if (inCode) { html += raw + "\n"; continue; }
+    const line = raw.trimEnd();
+    if (/^\|[\s:-]+\|/.test(line.replace(/[^|:\s-]/g, ""))
+        && /^\|(\s*:?-+:?\s*\|)+$/.test(line)) continue; // separator row
+    if (line.startsWith("|")) {
+      if (!inTable) { close(); html += "<table>"; inTable = true; }
+      const cells = line.split("|").slice(1, -1).map(c => inline(c.trim()));
+      html += "<tr>" + cells.map(c => `<td>${c}</td>`).join("") + "</tr>";
+      continue;
+    }
+    if (inTable) { html += "</table>"; inTable = false; }
+    if (line.startsWith("### ")) { close(); html += `<h4>${inline(line.slice(4))}</h4>`; }
+    else if (line.startsWith("## ")) { close(); html += `<h3>${inline(line.slice(3))}</h3>`; }
+    else if (line.startsWith("# ")) { close(); html += `<h3>${inline(line.slice(2))}</h3>`; }
+    else if (line.startsWith("> ")) { close(); html += `<blockquote>${inline(line.slice(2))}</blockquote>`; }
+    else if (/^[-*] /.test(line)) { if (!inList) { close(); html += "<ul>"; inList = true; } html += `<li>${inline(line.slice(2))}</li>`; }
+    else if (line === "---") { close(); html += "<hr>"; }
+    else if (line === "") { close(); }
+    else { close(); html += `<p>${inline(line)}</p>`; }
+  }
+  close();
+  if (inCode) html += "</code></pre>";
+  return html;
+}
+
+/* ---- Wiring ---- */
+function refreshAll() {
+  if (!token()) { status("Set a token to load data."); return; }
+  status("Refreshing…");
+  Promise.allSettled([loadLoops(), loadPRs(), loadReports()]).then(() => status(""));
+}
+
+$("#save-token").addEventListener("click", () => {
+  const v = $("#token").value.trim();
+  if (v) { localStorage.setItem("mc-token", v); $("#token").value = ""; }
+  setAuthPill(); refreshAll();
+});
+$("#clear-token").addEventListener("click", () => { localStorage.removeItem("mc-token"); setAuthPill(); });
+$("#refresh-btn").addEventListener("click", refreshAll);
+
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  try {
+    if (b.dataset.run) {
+      const inputs = b.dataset.mode ? { mode: b.dataset.mode } : {};
+      status(`Dispatching ${b.dataset.run}…`);
+      await dispatchWorkflow(b.dataset.run, inputs);
+      status(`${b.dataset.run} dispatched — refresh in a minute for status.`);
+    } else if (b.dataset.pr) {
+      await greenLight(Number(b.dataset.pr));
+    } else if (b.dataset.report) {
+      await viewReport(b.dataset.report);
+    } else if (b.id === "launch-task") {
+      const instruction = $("#task-instruction").value.trim();
+      if (!instruction) { status("Write an instruction first."); return; }
+      status("Launching AI task…");
+      await dispatchWorkflow("ai-task.yml", { instruction, context: $("#task-context").value.trim() || "AGENTS.md" });
+      status("AI task launched — a draft PR will appear under Submissions when it finishes.");
+    }
+  } catch (err) { status("Error: " + err.message); }
+});
+
+setAuthPill();
+refreshAll();
+</script>
+</body>
+</html>

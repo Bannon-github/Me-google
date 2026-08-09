@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Architect",
+    "charge": "Judge each finding against the ADRs and the system's shape. Does it change a decision already made? Does it unblock or invalidate a task? Flag anything that should become an ADR amendment."
+  },
+  {
+    "name": "Privacy Red-Team",
+    "charge": "Assume every finding is a trap until proven otherwise. What new attack surface, metadata leak, or dependency risk does adopting it create? Veto power: name any finding the repo must NOT adopt and why."
+  },
+  {
+    "name": "Integrator",
+    "charge": "Estimate the real cost of adoption: which files change, what breaks, what the smallest safe spike looks like. Rank findings by effort-to-payoff, and say which are ready to become tasks this week."
+  },
+  {
+    "name": "Product",
+    "charge": "Judge findings by user-visible payoff: does this make 'place an item and it persists', the theme system, or the games better? Kill anything that is tech-fashion with no path to the product."
+  }
+]
