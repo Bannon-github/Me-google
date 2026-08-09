@@ -1,0 +1,121 @@
+name: AI Research Loop
+
+# Outward + forward loops (ADR-009): weekly scout digest reviewed by the
+# council of specialized agents; monthly pre-mortem. Reports land via a
+# draft PR — never direct-push (ADR-008 part 5).
+#
+# Requires the AI_API_KEY repository secret (xAI or any OpenAI-compatible
+# provider). Without it, runs skip gracefully. Optional repo variables:
+# AI_MODEL (default grok-4), AI_BASE_URL (default https://api.x.ai/v1).
+
+on:
+  schedule:
+    - cron: '0 6 * * 3'   # weekly: scout + council (Wednesday, offset from Monday reflect)
+    - cron: '0 7 1 * *'   # monthly: pre-mortem (1st of the month)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Which loop to run'
+        required: false
+        default: 'scout'
+        type: choice
+        options: [scout, premortem, both]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  research:
+    name: Scout · Council · Pre-mortem
+    runs-on: ubuntu-latest
+    env:
+      AI_API_KEY: ${{ secrets.AI_API_KEY }}
+      AI_MODEL: ${{ vars.AI_MODEL }}
+      AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+    steps:
+      - name: Check for API key
+        id: key
+        run: |
+          if [ -n "$AI_API_KEY" ]; then
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::AI_API_KEY secret not set — research loop skipped."
+          fi
+
+      - name: Checkout repository
+        if: steps.key.outputs.has_key == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.key.outputs.has_key == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Determine mode
+        if: steps.key.outputs.has_key == 'true'
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 7 1 * *" ]; then
+            echo "mode=premortem" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=scout" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run scout + council
+        if: steps.key.outputs.has_key == 'true' && steps.mode.outputs.mode != 'premortem'
+        run: |
+          python3 scripts/scout.py
+          python3 scripts/council.py
+
+      - name: Run pre-mortem
+        if: steps.key.outputs.has_key == 'true' && steps.mode.outputs.mode != 'scout'
+        run: python3 scripts/premortem.py
+
+      - name: Open PR with reports
+        if: steps.key.outputs.has_key == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add reports/
+          if git diff --cached --quiet; then
+            echo "No new reports generated — nothing to open a PR for."
+            exit 0
+          fi
+          git config user.name  "me-google-research[bot]"
+          git config user.email "research-bot@me-google.internal"
+          BRANCH="research/${{ steps.mode.outputs.mode }}-$(date +%F-%H%M)"
+          git checkout -b "$BRANCH"
+          git commit -m "research(${{ steps.mode.outputs.mode }}): AI research loop reports $(date +%F)"
+          git push -u origin "$BRANCH"
+          if ! gh pr create \
+            --title "research(${{ steps.mode.outputs.mode }}): AI research loop $(date +%F)" \
+            --body "## AI Research Loop (ADR-009)
+
+          Automated reports from the outward/forward loops. Scout digests summarise
+          external web content — read before acting; council actions are proposals
+          to promote by hand via \`generate_tasks.py --add\`.
+
+          Mode: **${{ steps.mode.outputs.mode }}**" \
+            --base main \
+            --head "$BRANCH" \
+            --draft; then
+            echo "::warning::Could not create the PR automatically." \
+              "Open one manually: https://github.com/${GITHUB_REPOSITORY}/pull/new/$BRANCH"
+          fi
+
+      - name: Upload reports artifact
+        if: always() && steps.key.outputs.has_key == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-reports-${{ github.run_id }}
+          path: |
+            reports/scout-*.md
+            reports/council-*.md
+            reports/premortem-*.md
+          retention-days: 90
+          if-no-files-found: ignore

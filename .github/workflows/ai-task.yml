@@ -1,0 +1,116 @@
+name: AI Task (on-demand coding)
+
+# Human-triggered only: type an instruction, the model writes the code,
+# and the result lands as a DRAFT PR for review. Never scheduled, never
+# auto-merged (ADR-009 amendment). The coding session has no web access;
+# protected paths (workflows, rules/skills registries) are rejected by
+# scripts/ai_task.py before anything is written.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instruction:
+        description: 'What should be built (be specific; name files/tasks)'
+        required: true
+        type: string
+      context:
+        description: 'Comma-separated repo files to give the model as context'
+        required: false
+        default: 'AGENTS.md'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ai-task:
+    name: Author code from instruction
+    runs-on: ubuntu-latest
+    env:
+      AI_API_KEY: ${{ secrets.AI_API_KEY }}
+      AI_MODEL: ${{ vars.AI_MODEL }}
+      AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+    steps:
+      - name: Check for API key
+        run: |
+          if [ -z "$AI_API_KEY" ]; then
+            echo "::error::AI_API_KEY secret not set — cannot run an AI task."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run AI task
+        env:
+          INSTRUCTION: ${{ github.event.inputs.instruction }}
+          CONTEXT: ${{ github.event.inputs.context }}
+        run: |
+          python3 scripts/ai_task.py \
+            --instruction "$INSTRUCTION" \
+            --context "$CONTEXT" | tee ai-task-log.txt
+
+      - name: Run test suite
+        id: tests
+        continue-on-error: true
+        run: |
+          STATUS=0
+          echo "== Python unit tests (scripts/) =="
+          python3 -m unittest discover -s scripts -p 'test_*.py' -v || STATUS=1
+          if ls core/models/*.test.ts >/dev/null 2>&1; then
+            echo "== Core model tests (node) =="
+            node --test core/models/*.test.ts || STATUS=1
+          fi
+          if [ "$STATUS" = "0" ]; then
+            echo "result=✅ All tests passed" >> "$GITHUB_OUTPUT"
+          else
+            echo "result=❌ Test failures — see workflow log; do not merge yet" >> "$GITHUB_OUTPUT"
+          fi
+          exit $STATUS
+
+      - name: Open draft PR with changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INSTRUCTION: ${{ github.event.inputs.instruction }}
+        run: |
+          git add -A
+          git reset -- ai-task-log.txt
+          if git diff --cached --quiet; then
+            echo "::warning::Model proposed no applicable changes — no PR opened."
+            exit 0
+          fi
+          git config user.name  "me-google-ai-task[bot]"
+          git config user.email "ai-task-bot@me-google.internal"
+          BRANCH="ai-task/$(date +%F-%H%M)"
+          git checkout -b "$BRANCH"
+          SUMMARY=$(grep -m1 '^Summary:' ai-task-log.txt | sed 's/^Summary: //' || true)
+          git commit -m "feat(ai-task): ${SUMMARY:-AI-authored change}"
+          git push -u origin "$BRANCH"
+          {
+            echo "## AI Task (on-demand coding)"
+            echo
+            echo "**Instruction:**"
+            echo
+            echo "> $INSTRUCTION"
+            echo
+            echo '```'
+            cat ai-task-log.txt
+            echo '```'
+            echo
+            echo "Draft by design — review before merging (ADR-009 amendment)."
+          } > pr-body.md
+          if ! gh pr create \
+            --title "feat(ai-task): ${SUMMARY:-AI-authored change}" \
+            --body-file pr-body.md \
+            --base main \
+            --head "$BRANCH" \
+            --draft; then
+            echo "::warning::Could not create the PR automatically." \
+              "Open one manually: https://github.com/${GITHUB_REPOSITORY}/pull/new/$BRANCH"
+          fi

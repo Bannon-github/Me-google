@@ -361,6 +361,39 @@ class CodeAnalyser:
             recommendation="Document every significant architectural decision as an ADR." if adr_count < 3 else None,
         ))
 
+        # -- Research-loop liveness (ADR-009) ------------------------------
+        if (REPO_ROOT / ".github" / "workflows" / "ai-research.yml").exists():
+            reports_dir = REPO_ROOT / "reports"
+            for prefix, max_age_days, label in [
+                ("scout", 14, "scout digest"),
+                ("council", 14, "council decision"),
+                ("premortem", 45, "pre-mortem"),
+            ]:
+                reports = sorted(reports_dir.glob(f"{prefix}-*.md")) if reports_dir.exists() else []
+                if not reports:
+                    findings.append(Finding(
+                        source="code", category="research-loop", key=f"{prefix}_missing",
+                        value=None,
+                        severity="warning",
+                        description=f"The {label} loop has never produced a report.",
+                        recommendation=f"Run the ai-research workflow (or scripts/{prefix}.py) — a silent loop is a dead loop.",
+                    ))
+                    continue
+                newest = reports[-1]
+                try:
+                    newest_date = date.fromisoformat(newest.stem.replace(f"{prefix}-", ""))
+                except ValueError:
+                    continue
+                age = (date.today() - newest_date).days
+                if age > max_age_days:
+                    findings.append(Finding(
+                        source="code", category="research-loop", key=f"{prefix}_stale",
+                        value={"latest": newest.name, "age_days": age},
+                        severity="warning",
+                        description=f"Latest {label} is {age} days old (threshold {max_age_days}).",
+                        recommendation="Check the ai-research workflow schedule and AI_API_KEY secret.",
+                    ))
+
         # -- Large files (> 500 lines) ------------------------------------
         large_files: List[Dict] = []
         for ext in ["*.py", "*.ts", "*.kt", "*.swift"]:

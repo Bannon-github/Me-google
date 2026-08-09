@@ -1,0 +1,84 @@
+name: AI PR Review (advisory)
+
+# Rule-aware advisory review on every PR (stepping stone to the ADR-008
+# gates). Posts or updates one sticky comment; never blocks a merge —
+# every step that could fail the review is continue-on-error.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    name: Advisory review
+    runs-on: ubuntu-latest
+    # Forks don't get secrets; same-repo PRs only.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    env:
+      AI_API_KEY: ${{ secrets.AI_API_KEY }}
+      AI_MODEL: ${{ vars.AI_MODEL }}
+      AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+    steps:
+      - name: Check for API key
+        id: key
+        run: |
+          if [ -n "$AI_API_KEY" ]; then
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "AI_API_KEY secret not set — advisory review skipped."
+          fi
+
+      - name: Checkout repository
+        if: steps.key.outputs.has_key == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        if: steps.key.outputs.has_key == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build diff against base
+        if: steps.key.outputs.has_key == 'true'
+        run: |
+          git fetch origin "${{ github.base_ref }}"
+          git diff "origin/${{ github.base_ref }}...HEAD" > pr.diff
+          wc -c pr.diff
+
+      - name: Generate review
+        if: steps.key.outputs.has_key == 'true'
+        id: review
+        continue-on-error: true
+        run: |
+          python3 scripts/pr_review.py \
+            --diff-file pr.diff \
+            --title "${{ github.event.pull_request.title }}" > review.md
+          if [ -s review.md ]; then
+            echo "generated=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "generated=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post or update sticky comment
+        if: steps.key.outputs.has_key == 'true' && steps.review.outputs.generated == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          MARKER='<!-- me-google-ai-pr-review -->'
+          EXISTING=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" \
+            --jq ".[] | select(.body | startswith(\"$MARKER\")) | .id" | head -1)
+          if [ -n "$EXISTING" ]; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${EXISTING}" \
+              -F body=@review.md
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" -F body=@review.md
+          fi
