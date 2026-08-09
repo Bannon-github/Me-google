@@ -1,0 +1,121 @@
+[
+  {
+    "id": "SKILL-001",
+    "name": "pick-and-start-task",
+    "description": "Standard workflow for picking up and starting a task from TASKS.md",
+    "trigger": "When an agent is ready to begin new work",
+    "steps": [
+      "Run: python3 scripts/generate_tasks.py to see open tasks",
+      "Check that all dependencies of your chosen task are \u2705 done",
+      "If any critical task is open and unblocked, pick that first",
+      "Create branch: git checkout -b feat/TASK-XXX-short-description",
+      "Update task status: python3 scripts/generate_tasks.py --done TASK-XXX is only run after merging",
+      "Open a draft PR immediately so other agents know the task is claimed"
+    ],
+    "applies_to": [
+      "All"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  },
+  {
+    "id": "SKILL-002",
+    "name": "scaffold-new-module",
+    "description": "Scaffold a new module directory following Me-google conventions",
+    "trigger": "When creating any new directory in core/, services/, or platform/",
+    "steps": [
+      "Create the directory",
+      "Add README.md explaining: purpose, public API surface, how to test",
+      "Add a .gitkeep or initial source file",
+      "If it is a Python module, add an __init__.py",
+      "If it is a code module (not docs), add a test_ counterpart directory or file",
+      "Commit with: chore(scaffold): add <module-name> module structure"
+    ],
+    "applies_to": [
+      "Core Logic Engineer",
+      "DevOps Engineer",
+      "Privacy/Networking Engineer"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  },
+  {
+    "id": "SKILL-003",
+    "name": "write-adr",
+    "description": "Write an Architecture Decision Record following the project template",
+    "trigger": "Before implementing any cross-cutting concern or significant design choice",
+    "steps": [
+      "Create docs/adr/ADR-NNN-title.md (increment NNN from the highest existing ADR)",
+      "Use sections: Context, Decision, Consequences, Alternatives Considered",
+      "Link the ADR in any related PR description",
+      "Get the ADR reviewed before writing implementation code",
+      "Commit with: docs(adr): ADR-NNN \u2014 short title"
+    ],
+    "applies_to": [
+      "Architect",
+      "Privacy/Networking Engineer",
+      "Core Logic Engineer"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  },
+  {
+    "id": "SKILL-004",
+    "name": "run-reflection",
+    "description": "Run the self-improvement reflection engine and review output",
+    "trigger": "After completing a significant batch of work, or weekly",
+    "steps": [
+      "Run: python3 scripts/reflect.py run-all",
+      "Review the generated report in reports/reflection-YYYY-MM-DD.md",
+      "Review new rules in .github/rules/derived/",
+      "Review new skills in .github/skills/derived/",
+      "Check the updated .github/copilot-instructions.md for injected rules",
+      "Commit all changed files: chore(reflect): run weekly reflection",
+      "Open a PR if rules or skills have materially changed"
+    ],
+    "applies_to": [
+      "Task Manager",
+      "DevOps Engineer"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  },
+  {
+    "id": "SKILL-005",
+    "name": "add-missing-tests",
+    "description": "Backfill test coverage for existing untested source files",
+    "trigger": "When the reflection engine reports untested source files",
+    "steps": [
+      "Run: python3 scripts/reflect.py analyze --json | python -m json.tool to find untested files",
+      "For each untested file, create test_<filename> in the same directory",
+      "Write tests covering: happy path, edge cases, and error conditions",
+      "Run the tests to confirm they pass before committing",
+      "Commit with: test(<module>): add coverage for <filename>"
+    ],
+    "applies_to": [
+      "Core Logic Engineer",
+      "Web/WebXR Engineer"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  },
+  {
+    "id": "SKILL-006",
+    "name": "unblock-bottleneck",
+    "description": "Identify and resolve bottleneck tasks that are blocking the most work",
+    "trigger": "When reflection reports blocking tasks",
+    "steps": [
+      "Run: python3 scripts/reflect.py analyze to see bottleneck task IDs",
+      "Read the bottleneck task description in TASKS.md",
+      "Break the task into the smallest possible deliverable that unblocks others",
+      "Deliver that smallest slice first, then continue the rest",
+      "Update TASKS.md after merging: python3 scripts/generate_tasks.py --done TASK-XXX --write"
+    ],
+    "applies_to": [
+      "Task Manager",
+      "Architect"
+    ],
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect"
+  }
+]

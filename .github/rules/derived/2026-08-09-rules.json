@@ -1,0 +1,62 @@
+[
+  {
+    "id": "RULE-001",
+    "category": "process",
+    "title": "All commits must use Conventional Commits format",
+    "directive": "Every commit message must begin with a type prefix: feat:, fix:, docs:, refactor:, test:, chore:, ci:, research:, perf:. Do not commit without a type prefix.",
+    "severity": "required",
+    "rationale": "Conventional Commits enable automated changelogs and clear history.",
+    "evidence": "25/40 commits (62%) follow Conventional Commits format.",
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect",
+    "supersedes": null
+  },
+  {
+    "id": "RULE-002",
+    "category": "process",
+    "title": "Resolve bottleneck tasks before picking up new work",
+    "directive": "Before starting a new task, check whether any open task blocks \u22652 others. If so, prioritise that blocking task.",
+    "severity": "recommended",
+    "rationale": "Bottleneck tasks multiply their delay across every dependent task.",
+    "evidence": "Bottleneck tasks (each blocks \u22652 others): TASK-005, TASK-010, TASK-013.",
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect",
+    "supersedes": null
+  },
+  {
+    "id": "RULE-003",
+    "category": "testing",
+    "title": "Every source file must have a corresponding test file",
+    "directive": "When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.",
+    "severity": "required",
+    "rationale": "Untested code leads to silent regressions, especially in shared core logic.",
+    "evidence": "7 source file(s) have no corresponding test file.",
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect",
+    "supersedes": null
+  },
+  {
+    "id": "RULE-004",
+    "category": "code-quality",
+    "title": "Every module directory must contain a README.md",
+    "directive": "When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.",
+    "severity": "recommended",
+    "rationale": "Undocumented modules prevent new agents from understanding the codebase.",
+    "evidence": "10 directory(ies) lack a README.md.",
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect",
+    "supersedes": null
+  },
+  {
+    "id": "RULE-005",
+    "category": "code-quality",
+    "title": "Source files must stay under 500 lines",
+    "directive": "If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.",
+    "severity": "recommended",
+    "rationale": "Large files are harder to understand, review, and test.",
+    "evidence": "4 file(s) exceed 500 lines and may need splitting.",
+    "generated_at": "2026-08-09",
+    "source": "auto-reflect",
+    "supersedes": null
+  }
+]
