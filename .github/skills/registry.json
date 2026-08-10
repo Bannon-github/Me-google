@@ -1,7 +1,7 @@
 {
   "description": "Me-google skills registry \u2014 machine-readable index of all derived and manual skills.",
   "schema_version": "1.0",
-  "updated_at": "2026-08-03",
+  "updated_at": "2026-08-10",
   "total": 7,
   "entries": [
     {
@@ -20,7 +20,7 @@
       "applies_to": [
         "All"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {
@@ -41,7 +41,7 @@
         "DevOps Engineer",
         "Privacy/Networking Engineer"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {
@@ -61,7 +61,7 @@
         "Privacy/Networking Engineer",
         "Core Logic Engineer"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {
@@ -82,7 +82,7 @@
         "Task Manager",
         "DevOps Engineer"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {
@@ -101,7 +101,7 @@
         "Core Logic Engineer",
         "Web/WebXR Engineer"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {
@@ -120,7 +120,7 @@
         "Task Manager",
         "Architect"
       ],
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect"
     },
     {

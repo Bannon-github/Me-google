@@ -1,7 +1,7 @@
 {
   "description": "Me-google rules registry \u2014 machine-readable index of all derived and manual rules.",
   "schema_version": "1.0",
-  "updated_at": "2026-08-03",
+  "updated_at": "2026-08-10",
   "total": 7,
   "entries": [
     {
@@ -11,8 +11,8 @@
       "directive": "Every commit message must begin with a type prefix: feat:, fix:, docs:, refactor:, test:, chore:, ci:, research:, perf:. Do not commit without a type prefix.",
       "severity": "required",
       "rationale": "Conventional Commits enable automated changelogs and clear history.",
-      "evidence": "22/36 commits (61%) follow Conventional Commits format.",
-      "generated_at": "2026-08-03",
+      "evidence": "25/40 commits (62%) follow Conventional Commits format.",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -24,7 +24,7 @@
       "severity": "recommended",
       "rationale": "Bottleneck tasks multiply their delay across every dependent task.",
       "evidence": "Bottleneck tasks (each blocks \u22652 others): TASK-005, TASK-010, TASK-013.",
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -36,7 +36,7 @@
       "severity": "required",
       "rationale": "Untested code leads to silent regressions, especially in shared core logic.",
       "evidence": "7 source file(s) have no corresponding test file.",
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -48,7 +48,7 @@
       "severity": "recommended",
       "rationale": "Undocumented modules prevent new agents from understanding the codebase.",
       "evidence": "10 directory(ies) lack a README.md.",
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect",
       "supersedes": null
     },
@@ -60,7 +60,7 @@
       "severity": "recommended",
       "rationale": "Large files are harder to understand, review, and test.",
       "evidence": "4 file(s) exceed 500 lines and may need splitting.",
-      "generated_at": "2026-08-03",
+      "generated_at": "2026-08-10",
       "source": "auto-reflect",
       "supersedes": null
     },
