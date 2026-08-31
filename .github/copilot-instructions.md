@@ -82,13 +82,12 @@ Read `.github/skills/registry.json` for the current list of named skills you can
 
 ### Required
 
-- **All commits must use Conventional Commits format** (RULE-001): Every commit message must begin with a type prefix: feat:, fix:, docs:, refactor:, test:, chore:, ci:, research:, perf:. Do not commit without a type prefix.
-- **Every source file must have a corresponding test file** (RULE-003): When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.
+- **Every source file must have a corresponding test file** (RULE-002): When creating any source file in core/ or services/, immediately create test_<filename> in the same directory. A PR adding source without tests must not be merged.
 
 ### Recommended
 
-- **Resolve bottleneck tasks before picking up new work** (RULE-002): Before starting a new task, check whether any open task blocks ≥2 others. If so, prioritise that blocking task.
-- **Every module directory must contain a README.md** (RULE-004): When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.
-- **Source files must stay under 500 lines** (RULE-005): If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.
+- **Resolve bottleneck tasks before picking up new work** (RULE-001): Before starting a new task, check whether any open task blocks ≥2 others. If so, prioritise that blocking task.
+- **Every module directory must contain a README.md** (RULE-003): When scaffolding any new directory in core/, services/, or platform/, add a README.md explaining the module's purpose, its public API, and how to run its tests.
+- **Source files must stay under 500 lines** (RULE-004): If a source file exceeds 500 lines, split it into focused sub-modules. Use one file per class / concern. Prefer composition over monoliths.
 
 <!-- reflect:rules:end -->
